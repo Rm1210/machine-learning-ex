@@ -18,14 +18,19 @@ for iter = 1:num_iters
     %
 
 
+  %temp_theta = zeros(size(theta));
+  %for theta_iter = 1:length(theta)
+  % temp_theta(theta_iter) = theta(theta_iter) - alpha/m*(X(:,theta_iter)'*(X*theta-y));
+  %end
+  %theta = temp_theta;
 
 
-
+  theta = theta - alpha/m*(X'*(X*theta-y));
 
 
     % ============================================================
 
-    % Save the cost J in every iteration    
+    % Save the cost J in every iteration
     J_history(iter) = computeCost(X, y, theta);
 
 end
