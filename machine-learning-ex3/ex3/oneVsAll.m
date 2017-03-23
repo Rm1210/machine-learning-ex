@@ -34,6 +34,13 @@ X = [ones(m, 1) X];
 %       fmincg works similarly to fminunc, but is more efficient when we
 %       are dealing with large number of parameters.
 %
+
+
+options = optimset('GradObj', 'on', 'MaxIter', 50);
+for c=1:num_labels
+  initial_theta = zeros(n+1,1);
+  all_theta(c,:) = fmincg(@(t)(lrCostFunction(t, X, (y == c), lambda)), initial_theta, options);
+
 % Example Code for fmincg:
 %
 %     % Set Initial theta

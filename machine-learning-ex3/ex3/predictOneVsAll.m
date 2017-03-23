@@ -33,6 +33,8 @@ X = [ones(m, 1) X];
 
 
 
+predResult = sigmoid(X*all_theta');
+[x, p] = max(predResult, [], 2);
 
 
 

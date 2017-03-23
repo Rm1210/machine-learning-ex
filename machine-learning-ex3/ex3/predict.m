@@ -23,6 +23,11 @@ p = zeros(size(X, 1), 1);
 
 
 
+X = [ones(size(X, 1),1) X];
+layer2 = sigmoid(X*Theta1');
+layer2 = [ones(size(layer2, 1), 1) layer2];
+layer3 = sigmoid(layer2*Theta2');
+[x, p] = max(layer3, [], 2);
 
 
 
