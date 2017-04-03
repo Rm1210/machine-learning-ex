@@ -61,17 +61,33 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+X = [ones(size(X, 1),1) X]; %5000*401
+z2 = X*Theta1'; %5000*25
+layer2 = sigmoid(z2); %5000*25
+layer2 = [ones(size(layer2, 1), 1) layer2]; %5000*26
+z3 = layer2*Theta2';
+layer3 = sigmoid(z3); %5000*10
 
+real_y = zeros(size(layer3));
+for i=1:size(y, 1)
+  real_y(i,y(i)) = 1;
+end
 
+J = (1/m)*sum(sum(-real_y.*log(layer3)-(1-real_y).*log(1-layer3)));
+J += (lambda/(2*m))*(sum(Theta1(:, 2:end)(:).^2) + sum(Theta2(:, 2:end)(:).^2));
 
+delta3 = layer3 - real_y; % 5000*10
+delta2 = (delta3*Theta2(:,2:end)).*sigmoidGradient(z2);%5000*25
 
+Theta1_grad = (1/m)*(delta2'*X); % 25*401
+Theta1_grad_col1 = Theta1_grad(:,1);
+Theta1_grad += (lambda/m)*Theta1;
+Theta1_grad(:,1) = Theta1_grad_col1;
 
-
-
-
-
-
-
+Theta2_grad = (1/m)*(delta3'*layer2); % 10*26
+Theta2_grad_col1 = Theta2_grad(:,1);
+Theta2_grad += (lambda/m)*Theta2;
+Theta2_grad(:,1) = Theta2_grad_col1;
 
 
 
