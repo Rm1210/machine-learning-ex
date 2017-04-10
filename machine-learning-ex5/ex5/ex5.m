@@ -218,3 +218,9 @@ end
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+[x, index] = min(error_val);
+lambda = lambda_vec(index);
+[theta] = trainLinearReg(X_poly, y, lambda);
+error_test = linearRegCostFunction(X_poly_test, ytest, theta, 0);
+fprintf('***********\nTest Error = %f\n***********\n', error_test); % should be 3.8599
