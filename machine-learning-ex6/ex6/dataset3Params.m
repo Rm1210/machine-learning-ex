@@ -8,6 +8,7 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 %
 
 % You need to return the following variables correctly.
+emuArray = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 C = 1;
 sigma = 0.3;
 
@@ -22,6 +23,21 @@ sigma = 0.3;
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
+lastMinError = -1;
+for i = 1:length(emuArray)
+  iteraC = emuArray(i);
+  for j = 1:length(emuArray)
+    iteraSigma = emuArray(j);
+    model= svmTrain(X, y, iteraC, @(x1, x2) gaussianKernel(x1, x2, iteraSigma));
+    predictions = svmPredict(model, Xval);
+    error = mean(double(predictions ~= yval));
+    if (lastMinError == -1) || (error < lastMinError)
+      C = iteraC;
+      sigma = iteraSigma;
+      lastMinError = error;
+    end
+  end
+end 
 
 
 
