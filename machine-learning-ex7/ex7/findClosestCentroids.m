@@ -20,7 +20,11 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
+for i = 1:size(X,1)
+  subMatrix = ones(K,1) * X(i,:);
+  dist = sum(((subMatrix - centroids).^2), 2);
+  [C, idx(i)] = min(dist);
+end
 
 
 
